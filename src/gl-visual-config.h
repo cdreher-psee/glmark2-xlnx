@@ -31,7 +31,7 @@ class GLVisualConfig
 {
 public:
     GLVisualConfig():
-        red(1), green(1), blue(1), alpha(1), depth(1), stencil(0), buffer(1) {}
+        red(5), green(6), blue(5), alpha(0), depth(16), stencil(0), buffer(16) {}
     GLVisualConfig(int r, int g, int b, int a, int d, int s, int buf):
         red(r), green(g), blue(b), alpha(a), depth(d), stencil(s), buffer(buf) {}
     GLVisualConfig(const std::string &s);
