@@ -54,6 +54,8 @@ struct Options {
     static bool run_forever;
     static bool annotate;
     static bool offscreen;
+    static int depth;
+    static int bpp;
     static GLVisualConfig visual_config;
 };
 

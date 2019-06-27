@@ -42,6 +42,8 @@ bool Options::reuse_context = false;
 bool Options::run_forever = false;
 bool Options::annotate = false;
 bool Options::offscreen = false;
+int Options::depth = 16;
+int Options::bpp = 16;
 GLVisualConfig Options::visual_config;
 
 static struct option long_options[] = {
@@ -61,6 +63,8 @@ static struct option long_options[] = {
     {"show-all-options", 0, 0, 0},
     {"debug", 0, 0, 0},
     {"help", 0, 0, 0},
+    {"depth", 1, 0, 0},
+    {"bpp", 1, 0, 0},
     {0, 0, 0, 0}
 };
 
@@ -146,6 +150,8 @@ Options::print_help()
            "      --annotate         Annotate the benchmarks with on-screen information\n"
            "                         (same as -b :show-fps=true:title=#info#)\n"
            "  -d, --debug            Display debug messages\n"
+           "      --depth            Depth for drm backend\n"
+           "      --bpp              Bpp for drm backend\n"
            "  -h, --help             Display help\n");
 }
 
@@ -199,6 +205,10 @@ Options::parse_args(int argc, char **argv)
             Options::show_debug = true;
         else if (c == 'h' || !strcmp(optname, "help"))
             Options::show_help = true;
+        else if (!strcmp(optname, "depth"))
+            Options::depth = Util::fromString<int>(optarg);
+        else if (!strcmp(optname, "bpp"))
+            Options::bpp = Util::fromString<int>(optarg);
     }
 
     return true;

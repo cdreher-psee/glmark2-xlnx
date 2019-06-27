@@ -24,6 +24,7 @@
  */
 #include "native-state-drm.h"
 #include "log.h"
+#include "options.h"
 
 #include <fcntl.h>
 #include <libudev.h>
@@ -428,7 +429,7 @@ NativeStateDRM::fb_get_from_bo(gbm_bo* bo)
     unsigned int stride = gbm_bo_get_stride(bo);
     unsigned int handle = gbm_bo_get_handle(bo).u32;
     unsigned int fb_id(0);
-    int status = drmModeAddFB(fd_, width, height, 24, 32, stride, handle, &fb_id);
+    int status = drmModeAddFB(fd_, width, height, Options::depth, Options::bpp, stride, handle, &fb_id);
     if (status < 0) {
         Log::error("Failed to create FB: %d\n", status);
         return 0;
@@ -453,7 +454,7 @@ NativeStateDRM::init_gbm()
     }
 
     surface_ = gbm_surface_create(dev_, mode_->hdisplay, mode_->vdisplay,
-                                  GBM_FORMAT_XRGB8888,
+                                  (Options::bpp == 32) ? GBM_FORMAT_XRGB8888 : GBM_FORMAT_RGB565,
                                   GBM_BO_USE_SCANOUT | GBM_BO_USE_RENDERING);
     if (!surface_) {
         Log::error("Failed to create GBM surface\n");
