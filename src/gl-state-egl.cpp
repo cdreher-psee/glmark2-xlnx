@@ -470,6 +470,7 @@ GLStateEGL::gotValidDisplay()
     if (egl_display_)
         return true;
 
+#ifndef GLMARK2_USE_FBDEV
     char const * __restrict const supported_extensions =
         eglQueryString(EGL_NO_DISPLAY, EGL_EXTENSIONS);
 
@@ -503,6 +504,9 @@ GLStateEGL::gotValidDisplay()
         Log::debug("Falling back to eglGetDisplay()\n");
         egl_display_ = eglGetDisplay(native_display_);
     }
+#else
+    egl_display_ = eglGetDisplay(EGL_DEFAULT_DISPLAY);
+#endif
 
     if (!egl_display_) {
         Log::error("eglGetDisplay() failed with error: 0x%x\n", eglGetError());
