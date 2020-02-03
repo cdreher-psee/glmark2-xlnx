@@ -317,7 +317,7 @@ GLStateEGL::init_display(void* native_display, GLVisualConfig& visual_config)
         return false;
     }
 
-    if (gladLoadEGLUserPtr(EGL_NO_DISPLAY, load_egl_func, &egl_lib_) == 0) {
+    if (gladLoadEGLUserPtr(native_display, load_egl_func, &egl_lib_) == 0) {
         Log::error("Loading EGL entry points failed\n");
         return false;
     }
